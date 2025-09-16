@@ -1,0 +1,415 @@
+/* ====== Style dasar ====== */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* ====== Kontainer game ====== */
+#gameContainer {
+  display: inline-block;
+  position: relative;
+}
+
+#board {
+  width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  border: 6px solid #333;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Kotak papan */
+#board div {
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+/* Pola warna kotak */
+#board div:nth-child(odd) {
+  background: #f8f9fa;
+}
+#board div:nth-child(even) {
+  background: #e1f5fe;
+}
+
+/* Efek hover kotak */
+#board div:hover {
+  background: #ffd54f;
+  color: #000;
+}
+
+/* ====== Pion ====== */
+#player {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #ff1744, #b71c1c);
+  border-radius: 50%;
+  position: absolute;
+  top: 470px;
+  left: 10px;
+  box-shadow: 0 0 15px rgba(255, 23, 68, 0.8);
+  animation: pulse 1.5s infinite;
+  transition: all 0.5s ease-in-out;
+}
+
+/* ====== Kontrol ====== */
+#controls {
+  margin-top: 20px;
+}
+
+button {
+  padding: 12px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s, background 0.3s;
+}
+button:hover {
+  background: #388e3c;
+  transform: scale(1.05);
+}
+
+/* ====== Dadu animasi ====== */
+.dice {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 3px solid #333;
+  border-radius: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  transition: transform 0.5s ease;
+}
+.dice.roll {
+  animation: rollDice 0.8s linear infinite;
+}
+
+/* ====== Popup pertanyaan ====== */
+#questionPopup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 320px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+#answerOptions button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+  border-radius: 8px;
+  background: #2196f3;
+}
+#answerOptions button:hover {
+  background: #1565c0;
+}
+
+/* ====== Animasi ====== */
+@keyframes rollDice {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(90deg); }
+  50% { transform: rotate(180deg); }
+  75% { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px rgba(255,23,68,0.6); }
+  50% { box-shadow: 0 0 20px rgba(255,23,68,1); }
+  100% { box-shadow: 0 0 5px rgba(255,23,68,0.6); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-popup {
+  animation: fadeIn 0.6s ease;
+}
+/* === Tambahan: kontrol visibilitas popup === */
+#questionPopup.hidden {
+  display: none !important; /* pastikan popup bener2 tersembunyi */
+}
+#questionPopup.active {
+  display: flex !important; /* hanya tampil kalau diberi class active lewat JS */
+  animation: fadeIn 0.6s ease;
+}
+
+/* === Tambahan: animasi pion bergerak step by step === */
+@keyframes moveStep {
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+#player.moving {
+  animation: moveStep 0.3s ease-in-out;
+}
+/* === Warna papan zig-zag agar lebih jelas === */
+#board div:nth-child(10n+1),
+#board div:nth-child(10n+3),
+#board div:nth-child(10n+5),
+#board div:nth-child(10n+7),
+#board div:nth-child(10n+9) {
+  background: #bbdefb; /* biru muda */
+}
+#board div:nth-child(10n+2),
+#board div:nth-child(10n+4),
+#board div:nth-child(10n+6),
+#board div:nth-child(10n+8),
+#board div:nth-child(10n+10) {
+  background: #e3f2fd; /* biru lebih terang */
+}
+
+/* === Tambah pion player 2 === */
+#player2 {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #00e676, #1b5e20); /* hijau neon */
+  border-radius: 50%;
+  position: absolute;
+  top: 470px;
+  left: 10px;
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.8);
+  animation: pulse 1.5s infinite;
+  transition: all 0.5s ease-in-out;
+}
+
+/* Supaya pion tidak menimpa, geser sedikit */
+#player { transform: translate(-5px, 0); }
+#player2 { transform: translate(5px, 0); }
+
+/* ====== Pion Player 1 dan 2 ====== */
+#player {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #ff1744, #b71c1c); /* Merah */
+  border-radius: 50%;
+  position: absolute;
+  top: 470px;
+  left: 10px;
+  box-shadow: 0 0 15px rgba(255, 23, 68, 0.8);
+  animation: pulse 1.5s infinite;
+  transition: all 0.5s ease-in-out;
+  z-index: 5;
+}
+
+#player2 {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #00e676, #1b5e20); /* Hijau */
+  border-radius: 50%;
+  position: absolute;
+  top: 470px;
+  left: 40px; /* geser sedikit dari player1 */
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.8);
+  animation: pulse 1.5s infinite;
+  transition: all 0.5s ease-in-out;
+  z-index: 5;
+}
+
+/* ====== Background interaktif ====== */
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 20px;
+  overflow-x: hidden;
+
+  /* Efek gradien animasi */
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  background-size: 200% 200%;
+  animation: gradientMove 10s ease infinite;
+}
+
+/* Animasi gradasi halus */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Kotak pertanyaan */
+.question-cell {
+  background: #e53935 !important;
+  color: #fff;
+  font-weight: bold;
+  position: relative;
+}
+
+/* Efek glow saat aktif */
+.active-question {
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #ff5252, 0 0 10px #ff1744;
+  }
+  to {
+    box-shadow: 0 0 20px #ff5252, 0 0 40px #d50000;
+  }
+}
+
+/* ===== Kotak pertanyaan di papan ===== */
+.question-cell {
+  background-color: #e74c3c;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.question-cell:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+}
+
+/* ===== Popup pertanyaan ===== */
+#questionPopup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: none; /* awalnya sembunyi */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Flip card container */
+.card {
+  width: 300px;
+  height: 200px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.card-back {
+  background: #2ecc71;
+  transform: rotateY(180deg);
+}
+
+/* ==== Flip Card Popup ==== */
+.flip-card {
+  background: transparent;
+  width: 320px;
+  height: 220px;
+  perspective: 1000px;
+  margin: auto;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flip-card-front {
+  background: #ffffff;
+  color: #333;
+  padding: 20px;
+  font-size: 16px;
+}
+
+.flip-card-back {
+  background: #2196f3;
+  color: #fff;
+  transform: rotateY(180deg);
+  padding: 15px;
+}
+.flip-card-back button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #fff;
+  color: #2196f3;
+  cursor: pointer;
+  font-weight: bold;
+}
+.flip-card-back button:hover {
+  background: #e3f2fd;
+}

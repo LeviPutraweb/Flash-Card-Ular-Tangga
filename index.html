@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Ular Tangga Flashcard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Tambahan font biar lebih menarik -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Popup pertanyaan -->
+<div id="questionPopup">
+  <div class="card" id="questionCard">
+    <div class="card-inner">
+      <div class="card-front" id="questionText">Pertanyaan...</div>
+      <div class="card-back" id="answerText">Jawaban...</div>
+    </div>
+  </div>
+</div>
+
+</head>
+<body>
+  <h1>🎲 Game Ular Tangga Flashcard</h1>
+
+  <!-- Area papan ular tangga -->
+  <div id="gameContainer">
+    <div id="board"></div>
+    <!-- Pion pemain -->
+    <div id="player"></div>
+    <div id="player2"></div> <!-- Tambahan pion Player 2 -->
+  </div>
+
+
+  <!-- Area kontrol -->
+  <div id="controls">
+    <div id="dice" class="dice">🎲</div>
+    <button id="rollDiceBtn">Gulir Dadu</button>
+  </div>
+
+  <!-- Popup pertanyaan -->
+  <div id="questionPopup" class="hidden">
+    <div class="popup-content animate-popup">
+      <h2>❓ Pertanyaan</h2>
+      <p id="questionText"></p>
+      <div id="answerOptions"></div>
+      <button id="closePopup">Tutup</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
