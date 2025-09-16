@@ -7,16 +7,6 @@
   <link rel="stylesheet" href="style.css">
   <!-- Tambahan font biar lebih menarik -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <!-- Popup pertanyaan -->
-<div id="questionPopup">
-  <div class="card" id="questionCard">
-    <div class="card-inner">
-      <div class="card-front" id="questionText">Pertanyaan...</div>
-      <div class="card-back" id="answerText">Jawaban...</div>
-    </div>
-  </div>
-</div>
-
 </head>
 <body>
   <h1>🎲 Game Ular Tangga Flashcard</h1>
@@ -24,11 +14,16 @@
   <!-- Area papan ular tangga -->
   <div id="gameContainer">
     <div id="board"></div>
+    <svg id="decorations" class="overlay"></svg>
+
     <!-- Pion pemain -->
     <div id="player"></div>
     <div id="player2"></div> <!-- Tambahan pion Player 2 -->
+    
+    <!-- Tombol Start & Finish -->
+    <div id="startLabel">← START</div>
+    <div id="endLabel">FINISH →</div>
   </div>
-
 
   <!-- Area kontrol -->
   <div id="controls">
@@ -44,6 +39,12 @@
       <div id="answerOptions"></div>
       <button id="closePopup">Tutup</button>
     </div>
+  </div>
+
+  <!-- Catatan kecil -->
+  <div id="legendNote">
+    <span class="green">Garis Hijau</span> = Ular <br>
+    <span class="yellow">Garis Kuning</span> = Tangga
   </div>
 
   <script src="script.js"></script>
