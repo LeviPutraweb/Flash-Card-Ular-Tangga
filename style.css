@@ -114,15 +114,15 @@ button:hover {
   animation: rollDice 0.8s linear infinite;
 }
 
-/* ====== Popup pertanyaan ====== */
+/* ===== Popup pertanyaan ===== */
 #questionPopup {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: none; /* awalnya sembunyi */
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 .hidden {
   display: none;
@@ -303,21 +303,10 @@ body {
   box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
 }
 
-/* ===== Popup pertanyaan ===== */
-#questionPopup {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
-  display: none; /* awalnya sembunyi */
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
 /* Flip card container */
 .card {
-  width: 300px;
-  height: 200px;
+  width: 450px;
+  height: 350px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -351,36 +340,32 @@ body {
   transform: rotateY(180deg);
 }
 
-/* ==== Flip Card Popup ==== */
+/* === Flip card pertanyaan === */
 .flip-card {
   background: transparent;
-  width: 320px;
-  height: 220px;
+  width: 100%;
+  max-width: 320px;
+  margin: 15px auto;
   perspective: 1000px;
-  margin: auto;
 }
 
 .flip-card-inner {
   position: relative;
   width: 100%;
-  height: 100%;
-  text-align: center;
+  height: auto;
   transition: transform 0.8s;
   transform-style: preserve-3d;
-  cursor: pointer;
 }
 
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
+/* === FIX Flip Logic === */
 .flip-card-front, .flip-card-back {
   position: absolute;
   width: 100%;
-  height: 100%;
+  min-height: 200px;
   backface-visibility: hidden;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -388,28 +373,177 @@ body {
 }
 
 .flip-card-front {
-  background: #ffffff;
-  color: #333;
-  padding: 20px;
-  font-size: 16px;
+  background: linear-gradient(135deg, #ccffff, #9999ff);
 }
 
 .flip-card-back {
-  background: #2196f3;
-  color: #fff;
   transform: rotateY(180deg);
-  padding: 15px;
-}
-.flip-card-back button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  background: #fff;
-  color: #2196f3;
-  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
   font-weight: bold;
 }
+
+/* ✅ Fix: class 'flipped' dipasang langsung di .flip-card-inner */
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+/* === Pilihan ganda === */
+.options {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.options button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(135deg, #66ffff, #00ccff);
+  transition: all 0.3s;
+}
+
+.options button:hover {
+  background: #64b5f6;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* === Feedback Benar/Salah === */
+.correct {
+  background: linear-gradient(135deg, #a8e063, #56ab2f);
+  color: #fff;
+}
+.incorrect {
+  background: linear-gradient(135deg, #ff7e5f, #d00000);
+  color: #fff;
+}
+
 .flip-card-back button:hover {
   background: #e3f2fd;
+}
+/* ==== Start & End Labels (kotak kecil) ==== */
+#startLabel, #endLabel {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  transition: transform 0.3s, box-shadow 0.3s;
+  z-index: 10;
+}
+
+/* START: hijau cerah → pas di kanan kotak no.1 */
+#startLabel {
+  background: linear-gradient(145deg, #4caf50, #2e7d32);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+  bottom: 0;      /* sejajar bawah papan */
+  right: -55px;   /* persis di sebelah kanan papan */
+}
+
+/* FINISH: oranye cerah → pas di kiri kotak no.100 */
+#endLabel {
+  background: linear-gradient(145deg, #ff9800, #e65100);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.7);
+  top: 0;         /* sejajar atas papan */
+  left: -55px;    /* persis di sebelah kiri papan */
+}
+
+/* Efek hover */
+#startLabel:hover, #endLabel:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+/* === Note pojok kanan bawah === */
+#legendNote {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(255,255,255,0.85);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  text-align: left;
+  line-height: 1.4em;
+}
+
+#legendNote span.green {
+  color: #2ecc71; /* hijau */
+  font-weight: bold;
+}
+#legendNote span.yellow {
+  color: #f1c40f; /* kuning */
+  font-weight: bold;
+}
+
+#legendNote:hover {
+  transform: scale(1.15);
+  background: #ff66cc; /* ungu saat hover */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  color: #000;
+}
+.option-btn {
+  display: block;
+  margin: 6px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #f0f0f0;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.option-btn:hover {
+  background: #ddd;
+  transform: scale(1.05);
+}
+.option-btn.correct {
+  background: #4CAF50;
+  color: white;
+  transform: rotateY(180deg);
+}
+.option-btn.wrong {
+  background: #f44336;
+  color: white;
+  transform: rotateY(180deg);
+}
+.flip-card-back.correct {
+  background: linear-gradient(135deg, #99ffcc, #00ffcc);
+}
+
+.flip-card-back.wrong {
+  background: linear-gradient(135deg, #ff6600, #ff9999);  
+}
+/* === Overlay untuk ular & tangga asli === */
+#decorations.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* biar klik papan tetap jalan */
+}
+body {
+  /* warna dasar */
+  background: radial-gradient(circle at center, #fffae3 0%, #f0f0f0 100%);
+  transition: background 0.1s linear;
+  min-height: 100vh;
+  margin: 0;
 }
