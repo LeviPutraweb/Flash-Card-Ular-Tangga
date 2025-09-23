@@ -540,10 +540,3 @@ body {
   height: 100%;
   pointer-events: none; /* biar klik papan tetap jalan */
 }
-body {
-  /* warna dasar */
-  background: radial-gradient(circle at center, #fffae3 0%, #f0f0f0 100%);
-  transition: background 0.1s linear;
-  min-height: 100vh;
-  margin: 0;
-}
