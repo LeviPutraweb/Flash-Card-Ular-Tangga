@@ -161,7 +161,7 @@ function getCellCenter(n) {
 }
 
 /* ========== (2) KOTAK PERTANYAAN ========== */
-const QUESTIONS_COUNT = 15;
+const QUESTIONS_COUNT = 20;
 const questionCells = [];
 while (questionCells.length < QUESTIONS_COUNT) {
   const rand = Math.floor(Math.random() * 100) + 1;
@@ -171,26 +171,50 @@ while (questionCells.length < QUESTIONS_COUNT) {
     if (cell) cell.classList.add("question-cell");
   }
 }
-console.log("Kotak pertanyaan (15):", questionCells);
+console.log("Kotak pertanyaan (20):", questionCells);
 
 /* ========== (3) LIST PERTANYAAN ========== */
 // sekarang tiap pertanyaan punya pilihan ganda
 const questions = [
-  { q: "1. What is the main purpose of a narrative text?", options: ["To explain how something works","To tell a story or recount events","To describe a place"], correct: "To tell a story or recount events" },
-  { q: "Planet terbesar?", options: ["Mars","Jupiter","Venus"], correct: "Jupiter" },
-  { q: "Proklamator Indonesia?", options: ["Soekarno & Hatta","B.J. Habibie","Megawati"], correct: "Soekarno & Hatta" },
-  { q: "Gunung tertinggi di dunia?", options: ["Everest","Merapi","Kilimanjaro"], correct: "Everest" },
-  { q: "Lambang sila ke-5?", options: ["Padi dan Kapas","Bintang","Rantai"], correct: "Padi dan Kapas" },
-  { q: "Hewan tercepat di darat?", options: ["Cheetah","Kuda","Kelinci"], correct: "Cheetah" },
-  { q: "56 ÷ 1 ?", options: ["56","65","6"], correct: "56" },
-  { q: "Negara Matahari Terbit?", options: ["Jepang","Korea","Cina"], correct: "Jepang" },
-  { q: "Bendera Indonesia?", options: ["Merah Putih","Putih Merah","Merah Hijau"], correct: "Merah Putih" },
-  { q: "Rumus air?", options: ["H2O","CO2","O2"], correct: "H2O" },
-  { q: "Penemu listrik?", options: ["Benjamin Franklin","Edison","Tesla"], correct: "Benjamin Franklin" },
-  { q: "Gunung api di Jawa Tengah?", options: ["Merapi","Bromo","Krakatau"], correct: "Merapi" },
-  { q: "6 x 6 + 2 ?", options: ["38","36","40"], correct: "38" },
-  { q: "Presiden pertama RI?", options: ["Soekarno","Soeharto","Habibie"], correct: "Soekarno" },
-  { q: "Pulau terbesar di Indonesia?", options: ["Kalimantan","Sumatra","Papua"], correct: "Kalimantan" }
+  { q: "What is the main purpose of a narrative text?", options: ["To explain how something works","To tell a story or recount events","To describe a place"], correct: "To tell a story or recount events" },
+
+  { q: "Name three common types of narrative texts!", options: ["Fable, fairy tale, and legend","Poem, biography, and report","Article, speech, and review"], correct: "Fable, fairy tale, and legend" },
+  
+  { q: "What element in a narrative text describes the time and place?", options: ["Plot","Setting","Theme"], correct: "Setting" },
+
+  { q: "who usually tells the story in a narrative text?", options: ["The narrator","The reader","The publisher"], correct: "The narrator" },
+
+  { q: "What is the term for the problem or challenge in a narrative?", options: ["Setting","Conflict","Character"], correct: "Conflict" },
+
+  { q: "What part of the narrative comes after the climax?", options: ["Orientation","Resolution","Introduction"], correct: "Resolution" },
+
+  { q: "How does a narrative text usually begin?", options: ["With an orientation or introduction","With a conclusion","With a conflict"], correct: "With an orientation or introduction" },
+
+  { q: "What is the role of characters in a narrative?", options: ["They carry out the actions and drive the story","They decide the setting","They write the story"], correct: "They carry out the actions and drive the story" },
+
+  { q: "What tense is commonly used in narrative texts?", options: ["Past tense","Future tense","Present tense"], correct: "Past tense" },
+
+  { q: "Give one example of a narrative text.", options: [" A recipe","A fairy tale like Cinderella", " A weather report"], correct: "A fairy tale like Cinderella" },
+
+  { q: "What is usually the most exciting part of a narrative text?", options: ["Resolution","Climax", "Orientation"], correct: "Climax" },
+
+  { q: "What is the moral lesson in a narrative text often called? ", options: [" Theme","Plot","Moral"], correct: "Moral" },
+
+  { q: "What part introduces the characters and setting in a narrative?", options: ["Orientation", "Conflict", "Resolution"], correct: "Orientation" },
+
+  { q: "What do we call the order of events in a narrative text?", options: ["Theme","Plot","Setting"], correct: "Plot" },
+
+  { q: "Which of the following is NOT a type of narrative text?", options: [" Legend","Fairy tale","Report"], correct: "Report" },
+  
+  { q: "What do we call the people or animals involved in a narrative story?", options: ["Characters", "Setting", "Plot"], correct: "Characters" },
+
+  { q: "Which part of a narrative text creates suspense and interest?", options: ["Complication", "Resolution", "Orientation"], correct: "Complication" },
+  
+  { q: "What is the sequence of actions or events in a narrative called?", options: ["Theme", "Plot", "Conflict"], correct: "Plot" },
+
+  { q: "Which of the following can be a moral from a narrative text?", options: ["Honestly is the best policy", "Write your own story", "Describe the setting well"], correct: "Honestly is the best policy" },
+
+  { q: "Which sentence is an example of the past tense used in a narrative text?", options: ["He goes to the forest", "He went to the forest", "He will go to the forest"], correct: "He went to the forest" },
 ];
 const questionMap = {};
 for (let i = 0; i < questionCells.length; i++) {
@@ -537,11 +561,11 @@ async function handleRoll() {
   const landedPos = positions[currentPlayer];
   if (questionCells.includes(landedPos)) showQuestionForCell(landedPos);
   if (positions[currentPlayer] >= 100) {
-    alert(`Player ${currentPlayer+1} menang! 🎉`);
+    showWinner(`Player ${currentPlayer + 1}`);
     if (rollBtn) rollBtn.disabled = true;
     locked = true;
     return;
-  }
+}
   currentPlayer = currentPlayer === 0 ? 1 : 0;
   if (rollBtn) rollBtn.disabled = false;
   locked = false;
@@ -589,6 +613,7 @@ regenBtn.addEventListener("click", () => {
   }
 
   // 4️⃣ Gambar ulang SVG ular & tangga fungsional
+  resizeDecorationsSvg();
   drawSvgSnakesAndLadders(snakesAndLadders);
 
   // 5️⃣ Reset posisi pemain & giliran
